@@ -32,7 +32,12 @@ $result = null;
 switch ($toolCall["name"] ?? "") {
     case "get_user_by_email":
         $email = $toolCall["arguments"]["email"] ?? "";
-        $result = get_user_by_email($email);
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $result = ["error" => "Invalid email address"];
+        } else {
+            $result = get_user_by_email($email);
+        }
         break;
 }
 
